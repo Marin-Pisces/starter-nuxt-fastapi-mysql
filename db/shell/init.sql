@@ -1,0 +1,6 @@
+CREATE USER IF NOT EXISTS 'admin'@'%' IDENTIFIED BY 'pass';
+GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%';
+
+FLUSH PRIVILEGES;
+
+USE trpg;
