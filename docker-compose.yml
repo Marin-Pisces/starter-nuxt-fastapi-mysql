@@ -1,0 +1,56 @@
+version: '3.9'
+services:
+  # ---------------------------------------------
+  # frontend
+  # ---------------------------------------------
+  web:
+    build: ./frontend
+    container_name: web
+    tty : true
+    depends_on:
+      - api
+    ports:
+      - '8090:3000'
+      - '24678:24678' # Viteのホットリロード用
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+  # ---------------------------------------------
+  # backend
+  # ---------------------------------------------
+  api:
+    build: ./backend
+    container_name: api
+    tty: true
+    depends_on:
+      - db
+    ports:
+      - '5090:5090'
+    volumes:
+      - ./backend:/usr/src/api
+    environment:
+      # 学習用なのでここに記述
+      DB_USER: admin
+      DB_PASS: pass
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: trpg
+  # ---------------------------------------------
+  # DB
+  # ---------------------------------------------
+  db:
+    build: ./db
+    container_name: db
+    tty: true
+    ports:
+      - '3360:3306'
+    volumes:
+      - ./db/datas:/var/lib/mysql # データの永続化
+      - ./db/shell:/docker-entrypoint-initdb.d # 初期化SQL (init.sql)
+      - ./db/my.cnf:/etc/mysql/my.cnf
+    environment:
+      TZ: "Asia/Tokyo"
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: trpg
