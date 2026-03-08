@@ -36,7 +36,7 @@ services:
       DB_PASS: pass
       DB_HOST: db
       DB_PORT: 3306
-      DB_NAME: trpg
+      DB_NAME: init
   # ---------------------------------------------
   # DB
   # ---------------------------------------------
@@ -53,4 +53,4 @@ services:
     environment:
       TZ: "Asia/Tokyo"
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: trpg
+      MYSQL_DATABASE: init
